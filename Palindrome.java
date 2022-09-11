@@ -10,7 +10,7 @@ public class Palindrome
        input = input.replace(" ","");
        for(int i = input.length()-1;i>=0;i--) 
        {
-           b+=Character.toString(input.charAt(i));
+           b+=Character.toString(input.charAt(i)); //char to string
        }
        if (input.equals(b))
        {
