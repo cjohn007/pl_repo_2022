@@ -5,6 +5,7 @@ public class DFAtoCode
     public static void main(String[] args) 
 	
 	{
+		
         String state = "q0";
         Scanner scan = new Scanner(System.in);
 
