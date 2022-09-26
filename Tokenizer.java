@@ -28,7 +28,7 @@ public class Tokenizer
 		for(int x = 0;x<input.length();x++)
 		{
 			char each_char = input.charAt(x);
-			String str_char = Character.toString(each_char);
+			String str_char = Character.toString(each_char); 
 			
 			if(each_char == ';')
 			{
@@ -94,7 +94,7 @@ public class Tokenizer
 			}
 		}
 		
-		
+		System.out.println(coll_lexemes);
 		//Identify the lexeme
 		for(int y = 0;y<coll_lexemes.size();y++)
 		{
@@ -124,10 +124,10 @@ public class Tokenizer
 				if(element.contains(Character.toString('"')))
 				{
 					arr_token+="<value>";
-				
+
 				}
 				//char
-				if (element.contains("'"))
+				else if (element.contains("'"))
 				{
 					arr_token+="<value>";
 				}
@@ -140,7 +140,8 @@ public class Tokenizer
 				{
 					arr_token+="<value>";
 				}
-				else {
+				else 
+				{
 					arr_token+="<identifier>";
 				}
 				
