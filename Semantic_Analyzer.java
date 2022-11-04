@@ -12,17 +12,28 @@ public class Semantic_Analyzer
 	private static final char doub_quote='"';
 	private static final String single_quote="'";
 
-	public static void main(String[] args) 
+	public Semantic_Analyzer()
 	{
-		Scanner scan = new Scanner(System.in);
 		dataTypes.add("int");
 		dataTypes.add("double");
 		dataTypes.add("String");
 		dataTypes.add("char");
 		dataTypes.add("boolean");
-		System.out.println("Please input assignment code: ");
-		String input = scan.nextLine();
-		analyzeSemantics(input);
+	}
+
+	public static void main(String[] args) 
+	{
+		boolean operation = true;
+		while(operation==true)
+		{
+			new Semantic_Analyzer();
+			Scanner scan = new Scanner(System.in);
+			System.out.println("Please input assignment code: ");
+			String input = scan.nextLine();
+			analyzeSemantics(input);
+			operation = Boolean.parseBoolean(scan.nextLine());
+		}
+		
 
 	}
 	
@@ -31,6 +42,7 @@ public class Semantic_Analyzer
 		String result="", tokens="", syntax="";
 		
 		tokens = tokenize(input);
+		System.out.println(tokens);
 		syntax=analyzeSyntax(tokens); 
 		
 		/*****determine if the syntax is initialization or assigning-value*****/
@@ -93,7 +105,7 @@ public class Semantic_Analyzer
 			}
 		}
 		//value is a boolean
-		else if(value.equals("true")||value.equals("false"))
+		else if(value.equalsIgnoreCase("true")||value.equalsIgnoreCase("false"))
 		{
 			// data type / identifier is a boolean
 			if(identifier.equals("boolean"))
@@ -347,7 +359,7 @@ public class Semantic_Analyzer
 				{
 					arr_token+="<value>";
 				}
-				else if(element.equals("true")||element.equals("false"))
+				else if(element.equalsIgnoreCase("true")||element.equalsIgnoreCase("false"))
 				{
 					arr_token+="<value>";
 				}
