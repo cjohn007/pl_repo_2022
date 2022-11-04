@@ -349,11 +349,6 @@ public class Semantic_Analyzer
 				{
 					arr_token+="<value>";
 				}
-				//if a number is the first index
-				else if(numbers.contains(element))
-				{
-					arr_token+="<value>";
-				}
 				//if the element has dot
 				else if (element.contains("."))
 				{
@@ -366,7 +361,33 @@ public class Semantic_Analyzer
 
 				else
 				{
-					arr_token+="<identifier>";
+
+					/*check every character in element
+					  if it is located in numbers*/
+					  boolean isNum=true;
+					 for(int i=0;i<element.length();i++)
+					 {
+						//every character in value
+						String temp = String.valueOf(element.charAt(i));
+
+						if(numbers.contains(temp))
+						{
+							
+						}
+						else
+						{
+							isNum=false;
+						}
+					 }
+
+					 if(isNum==true)
+					 {
+						arr_token+="<value>";
+					 }
+					 else
+					 {
+						arr_token+="<identifier>";
+					 }
 				}		
 			}
 		}
