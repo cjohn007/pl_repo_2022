@@ -42,7 +42,7 @@ public class Semantic_Analyzer
 		String result="", tokens="", syntax="";
 		
 		tokens = tokenize(input);
-		System.out.println(tokens);
+		//System.out.println(tokens);
 		syntax=analyzeSyntax(tokens); 
 		
 		/*****determine if the syntax is initialization or assigning-value*****/
