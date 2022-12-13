@@ -181,8 +181,8 @@ public class Semantic_Analyzer
 	public static String analyzeSyntax(String input)
 	{
 		String result="";
-		String assignValue= "<data_type><identifier><assignment_operator><value><delimeter>";
-		String initIdentifier="<data_type><identifier><delimeter>";
+		String assignValue= "<data_type><identifier><assignment_operator><value><delimiter>";
+		String initIdentifier="<data_type><identifier><delimiter>";
 		
 		input = input.replaceAll(" ", "");
 		if(input.equals(assignValue))
@@ -323,7 +323,7 @@ public class Semantic_Analyzer
 			
 			if(element.equals(";"))
 			{
-				arr_token+= "<delimeter>";
+				arr_token+= "<delimiter>";
 			}
 			else if (element.equals("="))
 			{
