@@ -17,7 +17,8 @@ public class Semantic_Analyzer
 	public static void main(String[] args)
 	{
 		Semantic_Analyzer sa = new Semantic_Analyzer();
-		sa.analyzeSemantics("int x = 42544;");
+		System.out.println(sa.analyzeSemantics("int a = 5465;"));
+		
 
 	}
 
@@ -49,6 +50,7 @@ public class Semantic_Analyzer
 		//if it is assigning-value
 		if(syntax.equals("Correct_1"))
 		{
+			
 			result= isCorrectValue(coll_lexemes);
 		}
 		else if(syntax.equals("Correct_2"))
@@ -142,7 +144,7 @@ public class Semantic_Analyzer
 		}
 		//value is an integer
 
-		else if(numbers.contains(value) && alphabet.contains(value)==false)
+		else if(isInteger(value) && isLetter(value)==false)
 		{
 			//data type is a float
 			if(identifier.equals("int"))
@@ -187,9 +189,12 @@ public class Semantic_Analyzer
 		String initIdentifier="<data_type><identifier><delimiter>";
 		
 		input = input.replaceAll(" ", "");
+
+		
 		if(input.equals(assignValue))
 		{
 			result="Correct_1";
+			
 		}
 		else if(input.equals(initIdentifier))
 		{
@@ -333,7 +338,7 @@ public class Semantic_Analyzer
 			}
 			else if(dataTypes.contains(element))
 			{
-				arr_token+= "<data_type> ";
+				arr_token+= "<data_type>";
 			}
 			else
 			{
@@ -384,6 +389,27 @@ public class Semantic_Analyzer
 		{
 			String temp = String.valueOf(input.charAt(x));
 			if(numbers.contains(temp))
+			{
+
+			}
+			else
+			{
+				confirmation=false;
+				break;
+			}
+		}
+
+		return confirmation;
+	}
+	public static boolean isLetter(String input)
+	{
+		boolean confirmation=true;
+
+
+		for(int x = 0 ; x<input.length();x++)
+		{
+			String temp = String.valueOf(input.charAt(x));
+			if(alphabet.contains(temp))
 			{
 
 			}
