@@ -1,18 +1,34 @@
-
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.Scanner;
 
+
+/**
+ *
+ * @author Owner
+ */
 public class Semantic_Analyzer 
 {
-	
-	static ArrayList<String>  coll_lexemes = new ArrayList<String>();
+
+	public static void main(String[] args)
+	{
+		Semantic_Analyzer sa = new Semantic_Analyzer();
+		sa.analyzeSemantics("int x = 42544;");
+
+	}
+
+    static ArrayList<String>  coll_lexemes = new ArrayList<String>();
 	private static final String alphabet ="abcdefghijklmnopqrstuvwxyz";
 	private static final ArrayList<String> dataTypes = new ArrayList<String>();
 	private static final String numbers = "1234567890";
 	private static final char doub_quote='"';
 	private static final String single_quote="'";
-
-	public Semantic_Analyzer()
+	
+        public Semantic_Analyzer()
 	{
 		dataTypes.add("int");
 		dataTypes.add("double");
@@ -20,29 +36,13 @@ public class Semantic_Analyzer
 		dataTypes.add("char");
 		dataTypes.add("boolean");
 	}
-
-	public static void main(String[] args) 
-	{
-		boolean operation = true;
-		while(operation==true)
-		{
-			new Semantic_Analyzer();
-			Scanner scan = new Scanner(System.in);
-			System.out.println("Please input assignment code: ");
-			String input = scan.nextLine();
-			analyzeSemantics(input);
-			operation = Boolean.parseBoolean(scan.nextLine());
-		}
-		
-
-	}
-	
-	public static void analyzeSemantics(String input)
+        
+	public static String analyzeSemantics(String input)
 	{
 		String result="", tokens="", syntax="";
 		
 		tokens = tokenize(input);
-		//System.out.println(tokens);
+                System.out.println(tokens);
 		syntax=analyzeSyntax(tokens); 
 		
 		/*****determine if the syntax is initialization or assigning-value*****/
@@ -59,8 +59,10 @@ public class Semantic_Analyzer
 		{
 			result="Incorrect code!";
 		}
-		System.out.println(result);
+                coll_lexemes.clear();
+		return result;
 		
+                
 	}
 	public static String isCorrectValue(ArrayList<String> coll_lexemes)
 	{
@@ -105,7 +107,7 @@ public class Semantic_Analyzer
 			}
 		}
 		//value is a boolean
-		else if(value.equalsIgnoreCase("true")||value.equalsIgnoreCase("false"))
+		else if(value.equals("true")||value.equals("false"))
 		{
 			// data type / identifier is a boolean
 			if(identifier.equals("boolean"))
@@ -320,7 +322,7 @@ public class Semantic_Analyzer
 		for(int y = 0;y<coll_lexemes.size();y++)
 		{
 			String element = coll_lexemes.get(y);
-			
+
 			if(element.equals(";"))
 			{
 				arr_token+= "<delimiter>";
@@ -349,49 +351,50 @@ public class Semantic_Analyzer
 				{
 					arr_token+="<value>";
 				}
+				//if a number is the first index
+				else if(isInteger(element))
+				{
+					arr_token+="<value>";
+				}
 				//if the element has dot
 				else if (element.contains("."))
 				{
 					arr_token+="<value>";
 				}
-				else if(element.equalsIgnoreCase("true")||element.equalsIgnoreCase("false"))
+				else if(element.equals("true")||element.equals("false"))
 				{
 					arr_token+="<value>";
 				}
 
 				else
 				{
-
-					/*check every character in element
-					  if it is located in numbers*/
-					  boolean isNum=true;
-					 for(int i=0;i<element.length();i++)
-					 {
-						//every character in value
-						String temp = String.valueOf(element.charAt(i));
-
-						if(numbers.contains(temp))
-						{
-							
-						}
-						else
-						{
-							isNum=false;
-						}
-					 }
-
-					 if(isNum==true)
-					 {
-						arr_token+="<value>";
-					 }
-					 else
-					 {
-						arr_token+="<identifier>";
-					 }
+					arr_token+="<identifier>";
 				}		
 			}
 		}
 		
 		return arr_token;
 	}
+	public static boolean isInteger(String input)
+	{
+		boolean confirmation=true;
+
+
+		for(int x = 0 ; x<input.length();x++)
+		{
+			String temp = String.valueOf(input.charAt(x));
+			if(numbers.contains(temp))
+			{
+
+			}
+			else
+			{
+				confirmation=false;
+				break;
+			}
+		}
+
+		return confirmation;
+	}
+	
 }
