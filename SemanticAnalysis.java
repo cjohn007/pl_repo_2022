@@ -1,51 +1,37 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-
-/**
- *
- * @author Owner
- */
-public class Semantic_Analyzer 
+public class SemanticAnalysis 
 {
-
-	public static void main(String[] args)
-	{
-		Semantic_Analyzer sa = new Semantic_Analyzer();
-		System.out.println(sa.analyzeSemantics("int a = 5465;"));
-		
-
-	}
-
-    static ArrayList<String>  coll_lexemes = new ArrayList<String>();
+	static ArrayList<String>  coll_lexemes = new ArrayList<String>();
 	private static final String alphabet ="abcdefghijklmnopqrstuvwxyz";
 	private static final ArrayList<String> dataTypes = new ArrayList<String>();
 	private static final String numbers = "1234567890";
 	private static final char doub_quote='"';
 	private static final String single_quote="'";
 	
-        public Semantic_Analyzer()
+	public static void main(String[] args)
+	{
+		String result = analyzeSemantics("double x = '-2.3654';");
+		System.out.println(result);
+	}
+
+	public static String analyzeSemantics(String input)
 	{
 		dataTypes.add("int");
 		dataTypes.add("double");
 		dataTypes.add("String");
 		dataTypes.add("char");
 		dataTypes.add("boolean");
-	}
-        
-	public static String analyzeSemantics(String input)
-	{
+		
 		String result="", tokens="", syntax="";
 		
 		tokens = tokenize(input);
                 System.out.println(tokens);
 		syntax=analyzeSyntax(tokens); 
-		
+		System.out.println("syntax analysis: "+syntax);
 		/*****determine if the syntax is initialization or assigning-value*****/
 		//if it is assigning-value
 		if(syntax.equals("Correct_1"))
@@ -62,9 +48,7 @@ public class Semantic_Analyzer
 			result="Incorrect code!";
 		}
                 coll_lexemes.clear();
-		return result;
-		
-                
+		return result;	             
 	}
 	public static String isCorrectValue(ArrayList<String> coll_lexemes)
 	{
@@ -79,33 +63,31 @@ public class Semantic_Analyzer
 		beginning=value.charAt(0);
 		last = value.charAt(value.length()-1);
 		
-		
-		
 		//value is a String
 		if(beginning==doub_quote&&last==doub_quote)
 		{
 			// data type/identifier is a String
 			if(identifier.equals("String"))
 			{
-				result="Correct code!";
+				result="Your code is syntactically and semantically correct! "+ new String(Character.toChars(0x1F603));//+ new String(Character.toChars(0x1F349))
 			}
 			else
 			{
-				result="Incorrect code!";
+				result="Your code is syntactically and semantically incorrect! "+new String(Character.toChars(0x1F61E));
 			}
 		}
 		//value is a character
-		else if(Character.toString(beginning).equals("'")&&Character.toString(last).equals("'")
-				&&value.length()==3)
+		else if(Character.toString(beginning).equals("'")&&Character.toString(last).equals("'"))
 		{
 			// data type/identifier is a character
-			if(identifier.equals("char"))
+			if(identifier.equals("char")&&value.length()==3)
 			{
-				result="Correct code!";
+				result="Your code is syntactically and semantically correct! "+ new String(Character.toChars(0x1F603));
+
 			}
 			else
 			{
-				result="Incorrect code!";
+				result="Your code is syntactically and semantically incorrect! "+new String(Character.toChars(0x1F61E));
 			}
 		}
 		//value is a boolean
@@ -114,11 +96,11 @@ public class Semantic_Analyzer
 			// data type / identifier is a boolean
 			if(identifier.equals("boolean"))
 			{
-				result="Correct code!";
+				result="Your code is syntactically and semantically correct! "+ new String(Character.toChars(0x1F603));
 			}
 			else
 			{
-				result="Incorrect code!";
+				result="Your code is syntactically and semantically incorrect! "+new String(Character.toChars(0x1F61E));
 			}
 		}
 		//value is a float
@@ -127,18 +109,18 @@ public class Semantic_Analyzer
 			//if it has letter
 			if(alphabet.contains(value))
 			{
-				result="Incorrect code!";
+				result="Your code is syntactically and semantically incorrect! "+new String(Character.toChars(0x1F61E));
 			}
 			else
 			{
 				//data type is a float
 				if(identifier.equals("double"))
 				{
-					result="Correct code!";
+					result="Your code is syntactically and semantically correct! "+ new String(Character.toChars(0x1F603));
 				}
 				else
 				{
-					result="Incorrect code!";
+					result="Your code is syntactically and semantically incorrect! "+new String(Character.toChars(0x1F61E));
 				}	
 			}
 		}
@@ -149,16 +131,16 @@ public class Semantic_Analyzer
 			//data type is a float
 			if(identifier.equals("int"))
 			{
-				result="Correct code!";
+				result="Your code is syntactically and semantically correct! "+ new String(Character.toChars(0x1F603));
 			}
 			else
 			{
-				result="Incorrect code!";
+				result="Your code is syntactically and semantically incorrect! "+new String(Character.toChars(0x1F61E));
 			}
 		}
 		else
 		{
-			result="Incorrect code!!";
+			result="Your code is syntactically and semantically incorrect! "+new String(Character.toChars(0x1F61E));
 		}
 		
 		return result;
@@ -224,7 +206,7 @@ public class Semantic_Analyzer
 	{
 		String lexeme="";
 		
-		for(int x=0;x<input.length();x++)
+		for(int x=0;x<input.length();x++)// String x = "awe awe" ;
 		{
 			String temp = Character.toString(input.charAt(x)); 
 
@@ -241,13 +223,13 @@ public class Semantic_Analyzer
 					//if it is the first double or single quotation 
 					if((input_char == '"'|| Character.toString(input_char).equals("'")) && count==1)
 					{
-						count++;
+						count++;//1
 						tempStr+= Character.toString(input_char);
 					}
 					//if it is the second double or single quotation 
-					else if ((input_char == '"'|| Character.toString(input_char).equals("'")) && count==2)
+					else if ((input_char == '"'|| Character.toString(input_char).equals("'")) && count==2)//awe awe"
 					{
-						count++;
+						count++;//2
 						tempStr = tempStr+Character.toString(input_char);
 						coll_lexemes.add(tempStr);
 						x=y;
@@ -255,7 +237,7 @@ public class Semantic_Analyzer
 					}
 					else
 					{
-						tempStr+=Character.toString(input_char);
+						tempStr+=Character.toString(input_char);//awe awe
 					}
 				}
 				lexeme="";
@@ -295,55 +277,40 @@ public class Semantic_Analyzer
 				setColl_Lexemes(lexeme);
 				lexeme="";
 			}
-			else
-			{
+			else{
 			
-				if(temp.equals(" "))
-				{
+				if(temp.equals(" ")){
 					
 				}
-				else
-				{
+				else{
 					lexeme+=temp;
-				}
-			
-				
+				}						
 			}
 		}
 		return coll_lexemes;
 	}
-	public static void setColl_Lexemes(String lexeme)
-	{
-		if(lexeme.isEmpty()==false)
-		{
+	public static void setColl_Lexemes(String lexeme){
+		if(lexeme.isEmpty()==false){
 			coll_lexemes.add(lexeme);
 		}
 	}
 	
-	public static String matchLexemes(ArrayList<String> coll_lexemes)
-	{
+	public static String matchLexemes(ArrayList<String> coll_lexemes){
 		String arr_token="";
-	
-		for(int y = 0;y<coll_lexemes.size();y++)
-		{
+		for(int y = 0;y<coll_lexemes.size();y++){
 			String element = coll_lexemes.get(y);
 
-			if(element.equals(";"))
-			{
+			if(element.equals(";")){
 				arr_token+= "<delimiter>";
 			}
-			else if (element.equals("="))
-			{
+			else if (element.equals("=")){
 				arr_token+= "<assignment_operator>";
 			}
-			else if(dataTypes.contains(element))
-			{
+			else if(dataTypes.contains(element)){
 				arr_token+= "<data_type>";
 			}
-			else
-			{
+			else{
 				element = element.replaceAll(" ","");
-
 				
 				//string value
 				//if the first index are double quotation
@@ -352,45 +319,34 @@ public class Semantic_Analyzer
 					arr_token+="<value>";
 				}
 				//if the first index is single quotation
-				else if(Character.toString(element.charAt(0)).equals(single_quote))
-				{
+				else if(Character.toString(element.charAt(0)).equals(single_quote)){
 					arr_token+="<value>";
 				}
 				//if a number is the first index
-				else if(isInteger(element))
-				{
+				else if(isInteger(element)){
 					arr_token+="<value>";
 				}
 				//if the element has dot
-				else if (element.contains("."))
-				{
+				else if (element.contains(".")){
 					arr_token+="<value>";
 				}
-				else if(element.equals("true")||element.equals("false"))
-				{
+				else if(element.equals("true")||element.equals("false")){
 					arr_token+="<value>";
 				}
 
-				else
-				{
+				else{
 					arr_token+="<identifier>";
 				}		
 			}
-		}
-		
+		}		
 		return arr_token;
 	}
-	public static boolean isInteger(String input)
-	{
+	public static boolean isInteger(String input){
 		boolean confirmation=true;
-
-
-		for(int x = 0 ; x<input.length();x++)
-		{
+		for(int x = 0 ; x<input.length();x++){
 			String temp = String.valueOf(input.charAt(x));
-			if(numbers.contains(temp))
-			{
-
+			if(numbers.contains(temp)){
+				
 			}
 			else
 			{
@@ -401,26 +357,18 @@ public class Semantic_Analyzer
 
 		return confirmation;
 	}
-	public static boolean isLetter(String input)
-	{
+	public static boolean isLetter(String input){
 		boolean confirmation=true;
-
-
-		for(int x = 0 ; x<input.length();x++)
-		{
+		for(int x = 0 ; x<input.length();x++){
 			String temp = String.valueOf(input.charAt(x));
-			if(alphabet.contains(temp))
-			{
+			if(alphabet.contains(temp)){
 
 			}
-			else
-			{
+			else{
 				confirmation=false;
 				break;
 			}
 		}
-
 		return confirmation;
 	}
-	
 }

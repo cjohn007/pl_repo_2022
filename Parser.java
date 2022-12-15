@@ -19,7 +19,7 @@ public class Parser
 		{
 			if(input.equals(r))
 			{
-				result="Syntax is correct!";
+				result="Syntax is correct! ";
 				break;
 			}
 			else
@@ -30,3 +30,4 @@ public class Parser
 		return result;
 	}
 }
+
